@@ -12,49 +12,30 @@ import DynamicAvatar from "./DynamicAvatar";
 
 export default function Header() {
 	return (
-		<header className="px-4 lg:px-6 h-14 flex items-center bg-gradient-to-r from-[#6366F1] to-[#9333EA] text-white shadow-lg">
+		<header className="px-4 lg:px-6 h-14 flex items-center bg-gradient-to-r from-[#40418a] to-[#6d00d3] text-white shadow-lg">
 			<Link className="flex items-center justify-center" href="#">
 				<CodeIcon className="h-6 w-6" />
 				<span className="sr-only">algoduels</span>
 			</Link>
-			<Link
-				className="ml-6 text-sm font-medium hover:underline underline-offset-4"
-				href="#"
-			>
+			<Link className="ml-6 text-sm font-medium hover:underline underline-offset-4" href="#">
 				algoduels
 			</Link>
 			<nav className="ml-auto flex justify-center items-center sm:gap-16 pr-24">
-				<Link
-					className="text-sm font-medium hover:underline underline-offset-4"
-					href="#"
-				>
+				<Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
 					How it Works
 				</Link>
-				<Link
-					className="text-sm font-medium hover:underline underline-offset-4"
-					href="#"
-				>
+				<Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
 					Pricing
 				</Link>
-				<Link
-					className="text-sm font-medium hover:underline underline-offset-4"
-					href="#"
-				>
+				<Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
 					About
 				</Link>
-				<Link
-					className="text-sm font-medium hover:underline underline-offset-4"
-					href="#"
-				>
+				<Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
 					Contact
 				</Link>
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
-						<Button
-							className="overflow-hidden rounded-full"
-							size="icon"
-							variant="outline"
-						>
+						<Button className="overflow-hidden rounded-full" size="icon" variant="outline">
 							<Link href="#">
 								<DynamicAvatar />
 							</Link>

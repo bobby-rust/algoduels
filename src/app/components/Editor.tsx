@@ -30,8 +30,8 @@ export default function MonacoEditor(props: MonacoEditorProps): React.ReactEleme
 	return (
 		<Editor
 			height="50vh"
-			width="50vw"
-			defaultLanguage="typescript"
+			width="40vw"
+			defaultLanguage="javascript"
 			onChange={handleChange}
 			value={value}
 			theme="vs-dark"

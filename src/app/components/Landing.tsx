@@ -10,7 +10,7 @@ export default function Landing() {
 	return (
 		<div className="flex flex-col min-h-[100dvh]">
 			<main className="flex-1">
-				<section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-gradient-to-r from-[#6366F1] to-[#9333EA] text-white">
+				<section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-gradient-to-r from-[#40418a] to-[#6d00d3] text-white">
 					<div className="container px-4 md:px-6">
 						<div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_550px]">
 							<div className="flex flex-col justify-center space-y-4">
@@ -19,8 +19,7 @@ export default function Landing() {
 										Compete in real-time coding duels to ace your interviews
 									</h1>
 									<p className="max-w-[600px] text-gray-200 md:text-xl">
-										Our cutting-edge algorithm matches you with the perfect
-										opponents, pushing you to new heights of DSA mastery.
+										Add a new twist to your interview preparation with an engaging and competitive atmosphere.
 									</p>
 								</div>
 								<div className="flex flex-col gap-2 min-[400px]:flex-row">
@@ -38,12 +37,7 @@ export default function Landing() {
 									</Link>
 								</div>
 							</div>
-							<Image
-								src="/computer-cat.png"
-								width={550}
-								height={550}
-								alt="worker using computer"
-							/>
+							<Image src="/computer-cat.png" width={550} height={550} alt="worker using computer" />
 						</div>
 					</div>
 				</section>
@@ -54,54 +48,40 @@ export default function Landing() {
 								<div className="inline-block rounded-lg bg-gray-100 px-3 py-1 text-sm dark:bg-gray-800 text-[#6366F1]">
 									Matchmaking Algorithm
 								</div>
-								<h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-									Unparalleled Precision
-								</h2>
-								<p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-									Our proprietary algorithm analyzes your gameplay data, skill
-									level, and strategic preferences to pair you with the perfect
-									opponents, ensuring thrilling and evenly matched competitions.
+								<h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Unparalleled Precision</h2>
+								<p className="max-w-[900px] text-gray-800 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+									Our proprietary algorithm analyzes your gameplay data, skill level, and strategic preferences to pair
+									you with the perfect opponents, ensuring thrilling and evenly matched competitions.
 								</p>
 							</div>
 						</div>
 						<div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12">
-							<Image
-								src="/vortex.png"
-								width={400}
-								height={500}
-								alt="vortex"
-								className="transform rotate-12"
-							/>
+							<Image src="/vortex.png" width={400} height={500} alt="vortex" className="transform rotate-12" />
 							<div className="flex flex-col justify-center space-y-4">
 								<ul className="grid gap-6">
 									<li>
 										<div className="grid gap-1">
-											<h3 className="text-xl font-bold">
-												Personalized Matches
-											</h3>
-											<p className="text-gray-500 dark:text-gray-400">
-												Our algorithm considers your unique playstyle and skill
-												level to find the perfect opponents for you.
+											<h3 className="text-xl font-bold">Personalized Matches</h3>
+											<p className="text-gray-800 dark:text-gray-400 text-lg">
+												Our algorithm considers your unique playstyle and skill level to find the perfect opponents for
+												you.
 											</p>
 										</div>
 									</li>
 									<li>
 										<div className="grid gap-1">
-											<h3 className="text-xl font-bold">
-												Continuous Improvement
-											</h3>
-											<p className="text-gray-500 dark:text-gray-400">
-												With each match, the algorithm refines its understanding
-												of your abilities, ensuring you're always challenged.
+											<h3 className="text-xl font-bold">Continuous Improvement</h3>
+											<p className="text-gray-800 dark:text-gray-400 text-lg">
+												With each match, the algorithm refines its understanding of your abilities, ensuring you're
+												always challenged.
 											</p>
 										</div>
 									</li>
 									<li>
 										<div className="grid gap-1">
 											<h3 className="text-xl font-bold">Competitive Edge</h3>
-											<p className="text-gray-500 dark:text-gray-400">
-												Elevate your strategic skills and gain a competitive
-												edge over your opponents.
+											<p className="text-gray-800 dark:text-gray-400 text-lg">
+												Elevate your strategic skills and gain a competitive edge over your opponents.
 											</p>
 										</div>
 									</li>
@@ -113,36 +93,29 @@ export default function Landing() {
 				<section className="w-full py-12 md:py-24 lg:py-32 border-t">
 					<div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
 						<div className="space-y-3">
-							<h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
-								Hear From Our Users
-							</h2>
-							<p className="mx-auto max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-								Our algorithm has helped players of all skill levels improve
-								their game and achieve new heights of success.
+							<h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">Hear From Our Users</h2>
+							<p className="mx-auto max-w-[600px] text-gray-800 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+								Our algorithm has helped players of all skill levels improve their game and achieve new heights of
+								success.
 							</p>
 						</div>
 						<div className="grid w-full max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 h-60">
 							<Card className="h-full bg-gradient-to-r from-[#6366F1] to-[#9333EA] text-white flex items-center">
 								<CardContent className="flex flex-col">
 									<div className="space-y-2">
-										<div className="inline-block rounded-lg bg-white/20 px-3 py-1 my-2 text-sm">
-											Testimonial
-										</div>
+										<div className="inline-block rounded-lg bg-white/20 px-3 py-1 my-2 text-sm">Testimonial</div>
 									</div>
 									<div className="flex flex-col items-center space-x-3">
-										<blockquote className="text-md italic tracking-tigher leading-snug">
-											"A fantastic way to prepare for coding interviews!
-											Competing with others in real-time has sharpened my
-											problem-solving skills and kept me engaged. The app is
-											intuitive and makes leveling up addictive."
+										<blockquote className="text-lg italic tracking-tigher leading-snug">
+											"A fantastic way to prepare for coding interviews! Competing with others in real-time has
+											sharpened my problem-solving skills and kept me engaged. The app is intuitive and makes leveling
+											up addictive."
 										</blockquote>
 										<div className="flex justify-center align-center">
 											<DynamicAvatar />
 											<div className="flex flex-col justify-center align-bottom">
 												<div className="font-medium">John Doe</div>
-												<div className="text-sm text-gray-200">
-													Stanford University
-												</div>
+												<div className="text-sm text-gray-200">Stanford University</div>
 											</div>
 										</div>
 									</div>
@@ -152,23 +125,17 @@ export default function Landing() {
 							<Card className="h-full bg-gradient-to-r from-[#6366F1] to-[#9333EA] text-white flex items-center justify-center">
 								<CardContent className="flex flex-col justify-between">
 									<div className="space-y-2">
-										<div className="inline-block rounded-lg bg-white/20 px-3 py-1 text-sm">
-											Testimonial
-										</div>
-										<p className="text-md italic tracking-tighter leading-snug">
-											"This app brings a whole new dimension to solving LeetCode
-											problems. The competitive matchmaking is genius, pushing
-											me to improve with every match. It's both fun and
-											educational!"
+										<div className="inline-block rounded-lg bg-white/20 px-3 py-1 text-sm">Testimonial</div>
+										<p className="text-lg italic tracking-tighter leading-snug">
+											"This app brings a whole new dimension to solving LeetCode problems. The competitive matchmaking
+											is genius, pushing me to improve with every match. It's both fun and educational!"
 										</p>
 									</div>
 									<div className="flex items-center space-x-3">
 										<DynamicAvatar />
 										<div>
 											<div className="font-medium">Sarah Anderson</div>
-											<div className="text-sm text-gray-200">
-												Software Engineer at Tech Startup
-											</div>
+											<div className="text-sm text-gray-200">Software Engineer at Tech Startup</div>
 										</div>
 									</div>
 								</CardContent>
@@ -176,15 +143,11 @@ export default function Landing() {
 							<Card className="h-full bg-gradient-to-r from-[#6366F1] to-[#9333EA] text-white flex items-center justify-center">
 								<CardContent className="flex flex-col justify-between">
 									<div className="space-y-2">
-										<div className="inline-block rounded-lg bg-white/20 px-3 py-1 text-sm">
-											Testimonial
-										</div>
-										<p className="text-md font-medium italic tracking-tighter leading-snug">
-											"Finally, an app that makes coding challenges fun and
-											competitive. The matchmaking system is smooth, and
-											leveling up feels incredibly rewarding. Highly recommend
-											for anyone serious about improving their coding
-											abilities."
+										<div className="inline-block rounded-lg bg-white/20 px-3 py-1 text-sm">Testimonial</div>
+										<p className="text-lg italic tracking-tighter leading-snug">
+											"Finally, an app that makes coding challenges fun and competitive. The matchmaking system is
+											smooth, and leveling up feels incredibly rewarding. Highly recommend for anyone serious about
+											improving their coding abilities."
 										</p>
 									</div>
 									<div className="flex items-center space-x-3">
@@ -206,8 +169,7 @@ export default function Landing() {
 								Take Your Competitive Edge to the Next Level
 							</h2>
 							<p className="mx-auto max-w-[600px] text-gray-200 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-								Sign up now and experience the power of our cutting-edge
-								matchmaking algorithm.
+								Sign up now and play for free or level up your game with premium.
 							</p>
 						</div>
 						<div className="mx-auto w-full max-w-sm space-y-2">
@@ -217,10 +179,7 @@ export default function Landing() {
 									placeholder="Enter your email"
 									type="email"
 								/>
-								<Button
-									className="rounded-md bg-white text-[#6366F1]"
-									type="submit"
-								>
+								<Button className="rounded-md bg-white text-[#6366F1]" type="submit">
 									Sign Up
 								</Button>
 							</form>
@@ -244,9 +203,6 @@ export default function Landing() {
 						Privacy
 					</Link>
 				</nav>
-				<a href="https://www.vecteezy.com/free-vector/computer">
-					Computer Vectors by Vecteezy
-				</a>
 				<a href="https://www.vectorstock.com/royalty-free-vector/cat-with-computer-and-coffee-cartoon-vector-47467199">
 					Vector image by VectorStock / catalyststuff
 				</a>
