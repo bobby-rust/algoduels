@@ -1,6 +1,5 @@
 make dropdown menus for language and other options
 sign up, sign in pages
 loading spinner / feedback for running code
-design all problems page
 finish designing solve problem page
 xp / lvl / elo / rank system (Premium users only)
