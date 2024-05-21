@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { toTitleCase } from "../../../lib/utils";
 import MonacoEditor from "../../components/Editor";
 import { FaPlay } from "react-icons/fa";
-import Code from "../../components/Code";
 import { Button } from "@/components/ui/button";
 import Loading from "../../components/Loading";
 
@@ -128,6 +127,7 @@ export default function Problem() {
 		e.preventDefault();
 		console.log("Submitting: ", editorValue);
 		const response = await runCode(editorValue);
+		console.log(response);
 		console.log(response.error);
 
 		response.stdout !== "" ? setOutput(response.stdout) : setOutput(response.stderr);
