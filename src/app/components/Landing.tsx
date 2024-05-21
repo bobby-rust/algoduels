@@ -1,3 +1,8 @@
+/**
+ * @file Landing page component for the application. This component renders the landing page with sections
+ *       including an introduction, matchmaking algorithm details, user testimonials, and a call to action for signing up.
+ */
+
 import React from "react";
 import Link from "next/link";
 import { CardContent, Card } from "@/components/ui/card";
@@ -6,10 +11,16 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import DynamicAvatar from "./DynamicAvatar";
 
-export default function Landing() {
+/**
+ * Landing page component.
+ *
+ * @returns {JSX.Element} The landing page component.
+ */
+export default function Landing(): JSX.Element {
 	return (
 		<div className="flex flex-col min-h-[100dvh]">
 			<main className="flex-1">
+				{/* Hero section */}
 				<section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-gradient-to-r from-[#40418a] to-[#6d00d3] text-white">
 					<div className="container px-4 md:px-6">
 						<div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_550px]">
@@ -41,6 +52,8 @@ export default function Landing() {
 						</div>
 					</div>
 				</section>
+
+				{/* Matchmaking algorithm section */}
 				<section className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800">
 					<div className="container px-4 md:px-6">
 						<div className="flex flex-col items-center justify-center space-y-4 text-center">
@@ -90,6 +103,8 @@ export default function Landing() {
 						</div>
 					</div>
 				</section>
+
+				{/* User testimonials section */}
 				<section className="w-full py-12 md:py-24 lg:py-32 border-t">
 					<div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
 						<div className="space-y-3">
@@ -100,6 +115,7 @@ export default function Landing() {
 							</p>
 						</div>
 						<div className="grid w-full max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 h-60">
+							{/* Testimonial card */}
 							<Card className="h-full bg-gradient-to-r from-[#6366F1] to-[#9333EA] text-white flex items-center">
 								<CardContent className="flex flex-col">
 									<div className="space-y-2">
@@ -121,7 +137,6 @@ export default function Landing() {
 									</div>
 								</CardContent>
 							</Card>
-
 							<Card className="h-full bg-gradient-to-r from-[#6366F1] to-[#9333EA] text-white flex items-center justify-center">
 								<CardContent className="flex flex-col justify-between">
 									<div className="space-y-2">
@@ -162,6 +177,8 @@ export default function Landing() {
 						</div>
 					</div>
 				</section>
+
+				{/* Call to action section */}
 				<section className="w-full py-12 md:py-24 lg:py-32 border-t bg-gradient-to-r from-[#6366F1] to-[#9333EA] text-white">
 					<div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
 						<div className="space-y-3">
@@ -193,6 +210,8 @@ export default function Landing() {
 					</div>
 				</section>
 			</main>
+
+			{/* Footer */}
 			<footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t bg-gradient-to-r from-[#6366F1] to-[#9333EA] text-white">
 				<p className="text-xs">© 2024 algoduels. All rights reserved.</p>
 				<nav className="sm:ml-auto flex gap-4 sm:gap-6">

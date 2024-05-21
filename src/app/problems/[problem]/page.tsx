@@ -31,50 +31,61 @@ type IO = {
 };
 
 /**
- * This is a bad solution. The problem is that I want the frontend route
- * to be the problem's name, but I should just have it be the problem's id
- * to subvert this mess for now until I figure out a better solution
+ * Fetches a problem's details from the API by its name.
+ *
+ * @param {string} name - The name of the problem to fetch.
+ * @returns {Promise<Problem>} The problem details.
  */
 const fetchProblem = async (name: string): Promise<Problem> => {
 	const response = await fetch(`${API_URL}/problems/name/${name}`);
-
 	const json = await response.json();
 	return json;
 };
 
+/**
+ * Fetches the sanity check test cases for a given problem ID.
+ *
+ * @param {number} id - The ID of the problem.
+ * @returns {Promise<TestCase[]>} The list of test cases.
+ */
 const fetchExamples = async (id: number): Promise<TestCase[]> => {
 	const response = await fetch(`${API_URL}/testcases/sanity/${id}`);
-
 	const json = await response.json();
 	return json;
 };
 
+/**
+ * Runs the provided code in the execution environment.
+ *
+ * @param {string} code - The source code to be executed.
+ * @returns {Promise<any>} The result of the code execution.
+ */
 const runCode = async (code: string) => {
-	const response = await fetch("http://localhost:4000/api/run", {
+	// TODO: type the response
+	const response = await fetch(`${API_URL}/run`, {
 		method: "POST",
 		body: JSON.stringify({
 			language_id: 63,
 			source_code: code,
 		}),
 	});
-
 	const json = await response.json();
 	return json;
 };
 
-/*
- * fetch problem description & starter code, render it :)
- * this is where the code editor lives
+/**
+ * Problem component that fetches and displays a coding problem,
+ * renders a code editor for the problem's starter code, and handles code execution.
+ *
+ * @returns {JSX.Element} The rendered component.
  */
 export default function Problem() {
 	const path: string | null = usePathname();
-	const pathArr: string[] = path?.split("/").slice(1); // removes the empty string from the beginning
+	const pathArr: string[] = path?.split("/").slice(1); // Removes the empty string from the beginning
 	const problemName = pathArr[1];
 	const problemTitleCase = toTitleCase(problemName.replaceAll("-", " "));
 
-	/**
-	 * Problem description, default editor value will be fetched from the API
-	 */
+	// Default value for the code editor
 	const defaultValue = "// Write some code.";
 
 	const [editorValue, setEditorValue] = React.useState<string>(defaultValue);
@@ -82,15 +93,23 @@ export default function Problem() {
 	const [problem, setProblem] = React.useState<Problem | null>(null);
 	const [examples, setExamples] = React.useState<TestCase[] | null>(null);
 
+	/**
+	 * Handles changes to the code editor.
+	 *
+	 * @param {string} e - The new code from the editor.
+	 */
 	const handleChange = (e: string) => {
 		setEditorValue(e);
 	};
 
 	React.useEffect(() => {
+		/**
+		 * Fetches the problem details and test cases from the API.
+		 */
 		const getProblem = async () => {
 			const problem = await fetchProblem(problemTitleCase);
 
-			// Convert text to render friendly format
+			// Convert text to render-friendly format
 			problem.starter_code = problem.starter_code.replaceAll(/\\n/g, "\n");
 			problem.prompt = problem.prompt.replaceAll(/\\n/g, "\n").replaceAll(/\\/g, "<br /><br />");
 
@@ -99,7 +118,7 @@ export default function Problem() {
 			const response = await fetchExamples(problem.problem_id);
 
 			const examples: TestCase[] = response.map((ex, i) => {
-				const io: IO = JSON.parse(ex["io"] as unknown as string); // wtf?
+				const io: IO = JSON.parse(ex["io"] as unknown as string);
 				const cur = {
 					...ex,
 					io: {
@@ -123,6 +142,11 @@ export default function Problem() {
 		console.log(output);
 	}, [output]);
 
+	/**
+	 * Handles the form submission to run the code.
+	 *
+	 * @param {React.SyntheticEvent} e - The form submission event.
+	 */
 	const handleSubmit = async (e: React.SyntheticEvent) => {
 		e.preventDefault();
 		console.log("Submitting: ", editorValue);
@@ -161,24 +185,22 @@ export default function Problem() {
 				<div className="flex justify-center align-center border-2 rounded-sm mt-5 p-5 w-full h-full">
 					<section className="border-2 border-black p-5 w-1/2">
 						<div>
-							{examples?.map((ex, i) => {
-								return (
-									<div className="m-4" key={i}>
-										<h1>Example {i + 1}:</h1>
-										<div className="border-l-2">
-											<div className="m-2">
-												Input:{" "}
-												{Object.entries(ex.io.input).map(([key, val]) => (
-													<code key={key}>{`${key}: ${JSON.stringify(val)}`}</code>
-												))}
-											</div>
-											<div className="m-2">
-												Output: <code>{JSON.stringify(ex.io.output)}</code>
-											</div>
+							{examples?.map((ex, i) => (
+								<div className="m-4" key={i}>
+									<h1>Example {i + 1}:</h1>
+									<div className="border-l-2">
+										<div className="m-2">
+											Input:{" "}
+											{Object.entries(ex.io.input).map(([key, val]) => (
+												<code key={key}>{`${key}: ${JSON.stringify(val)}`}</code>
+											))}
+										</div>
+										<div className="m-2">
+											Output: <code>{JSON.stringify(ex.io.output)}</code>
 										</div>
 									</div>
-								);
-							})}
+								</div>
+							))}
 						</div>
 					</section>
 					<section className="w-1/2 border-2 border-black p-5">
