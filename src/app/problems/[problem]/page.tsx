@@ -1,34 +1,25 @@
-"use client";
-
 import React from "react";
-import { usePathname } from "next/navigation";
-import { toTitleCase } from "../../../lib/utils";
-import MonacoEditor from "../../components/Editor";
-import { FaPlay } from "react-icons/fa";
-import { Button } from "@/components/ui/button";
-import Loading from "../../components/Loading";
+import MonacoEditor from "../../components/Solution";
+import { Sidebar } from "../../components/Sidebar";
+import ProblemHeader from "@/app/components/ProblemHeader";
+import ProblemInfo from "@/app/components/ProblemInfo";
+import { Problem, TestCase } from "@/lib/types";
+// import { randomBytes } from "node:crypto";
+// import createDOMPurify from "dompurify";
+// import { JSDOM } from "jsdom";
+import { getAvatar } from "@/lib/avatar";
 
 const API_URL = "http://localhost:4000/api";
 
-type Problem = {
-	problem_id: number;
-	problem_name: string;
-	difficulty: number;
-	prompt: string;
-	starter_code: string;
-};
-
-type TestCase = {
-	test_case_id: number;
-	problem_id: number;
-	io: IO;
-	is_sanity_check: boolean;
-};
-
-type IO = {
-	input: string;
-	output: string;
-};
+// const getAvatar = async () => {
+// 	const window = new JSDOM("").window;
+// 	const DOMPurify = createDOMPurify(window);
+// 	const seed = randomBytes(32).toString("hex");
+// 	// Fetch data from external API
+// 	const res = await fetch(`https://api.dicebear.com/8.x/personas/svg?&size=64&seed=${seed}`);
+// 	const svg = await res.text();
+// 	return DOMPurify.sanitize(svg);
+// };
 
 /**
  * Fetches a problem's details from the API by its name.
@@ -37,6 +28,8 @@ type IO = {
  * @returns {Promise<Problem>} The problem details.
  */
 const fetchProblem = async (name: string): Promise<Problem> => {
+	"use server";
+	console.log(name);
 	const response = await fetch(`${API_URL}/problems/name/${name}`);
 	const json = await response.json();
 	return json;
@@ -49,6 +42,7 @@ const fetchProblem = async (name: string): Promise<Problem> => {
  * @returns {Promise<TestCase[]>} The list of test cases.
  */
 const fetchExamples = async (id: number): Promise<TestCase[]> => {
+	"use server";
 	const response = await fetch(`${API_URL}/testcases/sanity/${id}`);
 	const json = await response.json();
 	return json;
@@ -62,6 +56,7 @@ const fetchExamples = async (id: number): Promise<TestCase[]> => {
  */
 const runCode = async (code: string) => {
 	// TODO: type the response
+	"use server"; // server action
 	const response = await fetch(`${API_URL}/run`, {
 		method: "POST",
 		body: JSON.stringify({
@@ -79,135 +74,119 @@ const runCode = async (code: string) => {
  *
  * @returns {JSX.Element} The rendered component.
  */
-export default function Problem() {
-	const path: string | null = usePathname();
-	const pathArr: string[] = path?.split("/").slice(1); // Removes the empty string from the beginning
-	const problemName = pathArr[1];
-	const problemTitleCase = toTitleCase(problemName.replaceAll("-", " "));
-
-	// Default value for the code editor
-	const defaultValue = "// Write some code.";
-
-	const [editorValue, setEditorValue] = React.useState<string>(defaultValue);
-	const [output, setOutput] = React.useState<string>("");
-	const [problem, setProblem] = React.useState<Problem | null>(null);
-	const [examples, setExamples] = React.useState<TestCase[] | null>(null);
-
-	/**
-	 * Handles changes to the code editor.
-	 *
-	 * @param {string} e - The new code from the editor.
-	 */
-	const handleChange = (e: string) => {
-		setEditorValue(e);
-	};
-
-	React.useEffect(() => {
-		/**
-		 * Fetches the problem details and test cases from the API.
-		 */
-		const getProblem = async () => {
-			const problem = await fetchProblem(problemTitleCase);
-
-			// Convert text to render-friendly format
-			problem.starter_code = problem.starter_code.replaceAll(/\\n/g, "\n");
-			problem.prompt = problem.prompt.replaceAll(/\\n/g, "\n").replaceAll(/\\/g, "<br /><br />");
-
-			setProblem(problem);
-			console.log(problem.problem_id);
-			const response = await fetchExamples(problem.problem_id);
-
-			const examples: TestCase[] = response.map((ex, i) => {
-				const io: IO = JSON.parse(ex["io"] as unknown as string);
-				const cur = {
-					...ex,
-					io: {
-						input: io.input,
-						output: io.output,
-					},
-				};
-
-				return cur;
-			});
-
-			console.log(examples);
-			setExamples(examples);
-			setEditorValue(problem.starter_code);
-		};
-
-		getProblem();
-	}, []);
-
-	React.useEffect(() => {
-		console.log(output);
-	}, [output]);
-
-	/**
-	 * Handles the form submission to run the code.
-	 *
-	 * @param {React.SyntheticEvent} e - The form submission event.
-	 */
-	const handleSubmit = async (e: React.SyntheticEvent) => {
-		e.preventDefault();
-		console.log("Submitting: ", editorValue);
-		const response = await runCode(editorValue);
-		console.log(response);
-		console.log(response.error);
-
-		response.stdout !== "" ? setOutput(response.stdout) : setOutput(response.stderr);
-	};
-
+export default async function Page() {
 	return (
-		<div className="flex align-center justify-center w-full h-full border-2 border-red-600 p-5">
-			<div className="flex flex-col justify-center align-center w-[80vw] border-2 border-purple-500 p-5 m-auto">
-				<div className="flex align-center justify-center border-2 rounded-sm mt-5 p-5 w-full h-full">
-					<section className="border-2 border-black p-5 w-[50%]">
-						{!problem ? (
-							<Loading />
-						) : (
-							<>
-								<h1 className="font-bold text-lg">{problem?.problem_name}</h1>
-								<p className="leading-loose" dangerouslySetInnerHTML={{ __html: problem!.prompt }}></p>
-							</>
-						)}
-					</section>
-					<section className="border-2 border-black p-5 bg-[#1e1e1e]">
-						<form onSubmit={handleSubmit}>
-							<Button className="rounded-md bg-white text-[#6366F1] mb-5" type="submit">
-								<FaPlay className="mr-2" />
-								Run
-							</Button>
-						</form>
-						<MonacoEditor value={editorValue} handleChange={handleChange} />
-					</section>
-				</div>
-
-				<div className="flex justify-center align-center border-2 rounded-sm mt-5 p-5 w-full h-full">
-					<section className="border-2 border-black p-5 w-1/2">
-						<div>
-							{examples?.map((ex, i) => (
-								<div className="m-4" key={i}>
-									<h1>Example {i + 1}:</h1>
-									<div className="border-l-2">
-										<div className="m-2">
-											Input:{" "}
-											{Object.entries(ex.io.input).map(([key, val]) => (
-												<code key={key}>{`${key}: ${JSON.stringify(val)}`}</code>
-											))}
-										</div>
-										<div className="m-2">
-											Output: <code>{JSON.stringify(ex.io.output)}</code>
-										</div>
-									</div>
-								</div>
-							))}
-						</div>
-					</section>
-					<section className="w-1/2 border-2 border-black p-5">
-						<h1>Output: {output}</h1>
-					</section>
-				</div>
+		<div className="flex min-h-screen w-screen bg-gray-100">
+			<Sidebar />
+			<div className="flex flex-col w-full">
+				{/* <ProblemHeader /> */}
+				<main className="flex flex-col p-6 md:p-8 ">
+					<div className="flex">
+						<ProblemInfo fetchProblem={fetchProblem} fetchExamples={fetchExamples} />
+						<MonacoEditor runCode={runCode} />
+					</div>
+				</main>
 			</div>
 		</div>
+	);
+}
+
+function ReplyIcon(props: React.JSX.IntrinsicAttributes & React.SVGProps<SVGSVGElement>) {
+	return (
+		<svg
+			{...props}
+			xmlns="http://www.w3.org/2000/svg"
+			width="24"
+			height="24"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth="2"
+			strokeLinecap="round"
+			strokeLinejoin="round"
+		>
+			<polyline points="9 17 4 12 9 7" />
+			<path d="M20 18v-2a4 4 0 0 0-4-4H4" />
+		</svg>
+	);
+}
+
+function SearchIcon(props: React.JSX.IntrinsicAttributes & React.SVGProps<SVGSVGElement>) {
+	return (
+		<svg
+			{...props}
+			xmlns="http://www.w3.org/2000/svg"
+			width="24"
+			height="24"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth="2"
+			strokeLinecap="round"
+			strokeLinejoin="round"
+		>
+			<circle cx="11" cy="11" r="8" />
+			<path d="m21 21-4.3-4.3" />
+		</svg>
+	);
+}
+
+function ThumbsDownIcon(props: React.JSX.IntrinsicAttributes & React.SVGProps<SVGSVGElement>) {
+	return (
+		<svg
+			{...props}
+			xmlns="http://www.w3.org/2000/svg"
+			width="24"
+			height="24"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth="2"
+			strokeLinecap="round"
+			strokeLinejoin="round"
+		>
+			<path d="M17 14V2" />
+			<path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22h0a3.13 3.13 0 0 1-3-3.88Z" />
+		</svg>
+	);
+}
+
+function ThumbsUpIcon(props: React.JSX.IntrinsicAttributes & React.SVGProps<SVGSVGElement>) {
+	return (
+		<svg
+			{...props}
+			xmlns="http://www.w3.org/2000/svg"
+			width="24"
+			height="24"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth="2"
+			strokeLinecap="round"
+			strokeLinejoin="round"
+		>
+			<path d="M7 10v12" />
+			<path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2h0a3.13 3.13 0 0 1 3 3.88Z" />
+		</svg>
+	);
+}
+
+function CodeIcon(props: any) {
+	return (
+		<svg
+			{...props}
+			xmlns="http://www.w3.org/2000/svg"
+			width="24"
+			height="24"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth="2"
+			strokeLinecap="round"
+			strokeLinejoin="round"
+		>
+			<polyline points="16 18 22 12 16 6" />
+			<polyline points="8 6 2 12 8 18" />
+		</svg>
 	);
 }

@@ -10,7 +10,8 @@ import {
 import Link from "next/link";
 import DynamicAvatar from "./DynamicAvatar";
 
-export default function Header() {
+export default function Header(props: any) {
+	console.log("header props: ", props);
 	return (
 		<header className="px-4 lg:px-6 h-14 flex items-center bg-gradient-to-r from-[#40418a] to-[#6d00d3] text-white shadow-lg">
 			<Link className="flex items-center justify-center" href="#">
