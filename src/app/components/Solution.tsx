@@ -6,9 +6,11 @@ import { darkPlus } from "../../themes/darkPlus";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import { ProblemType } from "@/lib/types";
 
 type MonacoEditorProps = {
 	runCode: (code: string) => Promise<any>; // TODO: type the promise
+	problem: ProblemType | null;
 };
 
 // Default value for the code editor
@@ -24,10 +26,10 @@ const defaultValue = "// Write some code.";
  * Also, there are packages for VIM / EMACS integration which I will look into
  */
 export default function MonacoEditor(props: MonacoEditorProps): React.ReactElement<any, any> {
-	const [editorValue, setEditorValue] = React.useState<string>(defaultValue);
+	const [editorValue, setEditorValue] = React.useState<string | undefined>(defaultValue);
 	const [output, setOutput] = React.useState<string | null>(null);
 
-	const { runCode } = props;
+	const { runCode, problem } = props;
 
 	/**
 	 * Handles changes to the code editor.
@@ -45,7 +47,9 @@ export default function MonacoEditor(props: MonacoEditorProps): React.ReactEleme
 	 * @param {React.SyntheticEvent} e - The form submission event.
 	 */
 	const handleSubmit = async (e: React.SyntheticEvent) => {
+		if (typeof editorValue === "undefined") return;
 		e.preventDefault();
+
 		console.log("Submitting: ", editorValue);
 		const response = await runCode(editorValue);
 		console.log(response);
@@ -60,17 +64,19 @@ export default function MonacoEditor(props: MonacoEditorProps): React.ReactEleme
 			monaco.editor.defineTheme("darkPlus", darkPlus);
 			monaco.editor.setTheme("darkPlus");
 		});
+
+		setEditorValue(problem?.starter_code);
 	}, []);
 
 	return (
-		<section className="flex justify-center flex-col max-w-[80vw] align-center rounded-lg border bg-white p-6 dark:bg-gray-950">
+		<section className="flex flex-col max-w-[80vw] dark:bg-gray-950 ">
 			<div className="mb-6">
 				<h2 className="text-xl font-bold">Solution</h2>
-				<p className="text-gray-500 dark:text-gray-400">Write your solution in the code editor below.</p>
+				<p className="text-gray-800">Write your solution in the code editor below.</p>
 			</div>
 			<div>
 				<Label htmlFor="language">Language</Label>
-				<div className="flex">
+				<div className="flex mb-3">
 					<div className="mr-3">
 						<Select name="language" defaultValue="javascript">
 							<SelectTrigger>
@@ -90,10 +96,9 @@ export default function MonacoEditor(props: MonacoEditorProps): React.ReactEleme
 						</form>
 					</div>
 				</div>
-				<div className="">
-					<Label htmlFor="code-editor">Code Editor</Label>
+				<div>
 					<Editor
-						height="50vh"
+						height="70vh"
 						width="50vw"
 						defaultLanguage="javascript"
 						onChange={handleChange}

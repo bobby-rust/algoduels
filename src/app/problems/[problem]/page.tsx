@@ -1,33 +1,17 @@
 import React from "react";
-import MonacoEditor from "../../components/Solution";
 import { Sidebar } from "../../components/Sidebar";
-import ProblemHeader from "@/app/components/ProblemHeader";
-import ProblemInfo from "@/app/components/ProblemInfo";
-import { Problem, TestCase } from "@/lib/types";
-// import { randomBytes } from "node:crypto";
-// import createDOMPurify from "dompurify";
-// import { JSDOM } from "jsdom";
-import { getAvatar } from "@/lib/avatar";
+import { ProblemType, TestCase } from "@/lib/types";
+import Problem from "@/app/components/Problem";
 
 const API_URL = "http://localhost:4000/api";
-
-// const getAvatar = async () => {
-// 	const window = new JSDOM("").window;
-// 	const DOMPurify = createDOMPurify(window);
-// 	const seed = randomBytes(32).toString("hex");
-// 	// Fetch data from external API
-// 	const res = await fetch(`https://api.dicebear.com/8.x/personas/svg?&size=64&seed=${seed}`);
-// 	const svg = await res.text();
-// 	return DOMPurify.sanitize(svg);
-// };
 
 /**
  * Fetches a problem's details from the API by its name.
  *
  * @param {string} name - The name of the problem to fetch.
- * @returns {Promise<Problem>} The problem details.
+ * @returns {Promise<ProblemType>} The problem details.
  */
-const fetchProblem = async (name: string): Promise<Problem> => {
+const fetchProblem = async (name: string): Promise<ProblemType> => {
 	"use server";
 	console.log(name);
 	const response = await fetch(`${API_URL}/problems/name/${name}`);
@@ -74,16 +58,14 @@ const runCode = async (code: string) => {
  *
  * @returns {JSX.Element} The rendered component.
  */
-export default async function Page() {
+export default async function Page(props: any) {
 	return (
 		<div className="flex min-h-screen w-screen bg-gray-100">
 			<Sidebar />
 			<div className="flex flex-col w-full">
-				{/* <ProblemHeader /> */}
 				<main className="flex flex-col p-6 md:p-8 ">
 					<div className="flex">
-						<ProblemInfo fetchProblem={fetchProblem} fetchExamples={fetchExamples} />
-						<MonacoEditor runCode={runCode} />
+						<Problem fetchProblem={fetchProblem} fetchExamples={fetchExamples} runCode={runCode} />
 					</div>
 				</main>
 			</div>

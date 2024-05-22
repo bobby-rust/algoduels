@@ -1,4 +1,4 @@
-export type Problem = {
+export type ProblemType = {
 	problem_id: number;
 	problem_name: string;
 	difficulty: number;
