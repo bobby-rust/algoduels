@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { ProblemType } from "@/lib/types";
+import Testcases from "./Testcases";
 
 type MonacoEditorProps = {
 	runCode: (code: string) => Promise<any>; // TODO: type the promise
@@ -28,7 +29,6 @@ const defaultValue = "// Write some code.";
 export default function MonacoEditor(props: MonacoEditorProps): React.ReactElement<any, any> {
 	const [editorValue, setEditorValue] = React.useState<string | undefined>(defaultValue);
 	const [output, setOutput] = React.useState<string | null>(null);
-
 	const { runCode, problem } = props;
 
 	/**
@@ -64,14 +64,16 @@ export default function MonacoEditor(props: MonacoEditorProps): React.ReactEleme
 			monaco.editor.defineTheme("darkPlus", darkPlus);
 			monaco.editor.setTheme("darkPlus");
 		});
-
-		setEditorValue(problem?.starter_code);
 	}, []);
+
+	React.useEffect(() => {
+		setEditorValue(problem?.starter_code);
+	}, [problem]);
 
 	return (
 		<section className="flex flex-col max-w-[80vw] dark:bg-gray-950 ">
 			<div className="mb-6">
-				<h2 className="text-xl font-bold">Solution</h2>
+				<h2 className="text-lg font-bold">Solution</h2>
 				<p className="text-gray-800">Write your solution in the code editor below.</p>
 			</div>
 			<div>
@@ -98,7 +100,7 @@ export default function MonacoEditor(props: MonacoEditorProps): React.ReactEleme
 				</div>
 				<div>
 					<Editor
-						height="70vh"
+						height="40vh"
 						width="50vw"
 						defaultLanguage="javascript"
 						onChange={handleChange}
@@ -107,6 +109,8 @@ export default function MonacoEditor(props: MonacoEditorProps): React.ReactEleme
 					/>
 				</div>
 			</div>
+
+			<Testcases />
 		</section>
 	);
 }

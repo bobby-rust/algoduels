@@ -45,11 +45,8 @@ export default function Problem(props: any) {
 		getProblem();
 	}, []);
 
-	React.useEffect(() => {
-		console.log(examples);
-	}, [examples]);
 	return (
-		<div className="flex rounded-lg border shadow-lg max-h-screen bg-white p-6">
+		<div className="flex max-h-[70vh] p-3">
 			<ProblemInfo problem={problem} examples={examples} />
 			<Solution problem={problem} runCode={runCode} />
 		</div>
